@@ -64,8 +64,9 @@
                     <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
                     <li><a class="nav-link scrollto" href="#team">Team</a></li>
                     <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                    <li><a class="nav-link scrollto" href="{{path('app_level_index')}}">Quizz</a></li>
+                    
                     {% if app.user %}
+                    <li><a class="nav-link scrollto" href="{{path('app_level_index')}}">Quizz</a></li>
                         <div class="mb-3">
                             <li><a class="nav-link scrollto" href="#contact"> You are logged in as {{ app.user.userIdentifier }}</a></li>
                             <a href="{{ path('app_logout') }}">Logout</a>

@@ -13,7 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use App\Controller\AIController;
+use Psr\Log\LoggerInterface;
+use GuzzleHttp\Client;
+
 
 class HomeController extends AbstractController
 {
@@ -88,25 +92,63 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/level/{id}/{subjectId}/{chapterId}/{subchapterId}/GenerateQuiz', name: 'generate_quiz', methods: ['POST'])]
-    public function generateText(Chapter $chapter,Subject $subj,Level $lvl, Subchapter $subchapter, Request $request)
+    private function generateTextWithOpenAI($prompt, $apiKey)
+    {
+        $quizz = new Quizz();
+        // Create a Guzzle client
+        $httpClient = new Client();
+
+        // Define the OpenAI API endpoint URL
+        $openaiApiUrl = 'https://api.openai.com/v1/engines/davinci/completions';
+
+        // Prepare the request data
+        $requestData = [
+            'prompt' => $prompt,
+            'max_tokens' => 50, // Adjust as needed
+        ];
+
+        // Send a POST request to the OpenAI API
+        try {
+            $response = $httpClient->post($openaiApiUrl, [
+                'json' => $requestData,
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $apiKey,
+                    'Content-Type' => 'application/json',
+                ],
+            ]);
+
+            // Check if the request was successful (status code 200)
+            if ($response->getStatusCode() === 200) {
+                // Parse and return the generated text from the response
+                $responseData = json_decode($response->getBody()->getContents(), true);
+                if (isset($responseData['choices'][0]['text'])) {
+                    return $responseData['choices'][0]['text'];
+                } else {
+                    return 'Text generation failed.';
+                }
+            } else {
+                return 'OpenAI API request failed.';
+            }
+        } catch (\Exception $e) {
+            return 'Error: ' . $e->getMessage();
+        }
+    }
+
+    #[Route('/level/{id}/{subjectId}/{chapterId}/{subchapterId}/GenerateQuiz', name: 'generate_quiz', methods: ['GET'])]
+    public function generateText(Level $lvl,Subject $subj,Chapter $chapter, Subchapter $subchapter, Request $request)
     {
         
-    $form = $this->createForm(PromptFormType::class);
-    $form->handleRequest($request);
+    $generatedText = 'null';
 
-    $generatedText = null;
-
-    if ($form->isSubmitted() && $form->isValid()) {
         
-        $prompt = 'pouvez vous generer un quiz pour niveau 1ere lycee, matiere :' . $Subject . ', chapitre :' . $chapter . 'et sous-chapitre :' . $subchapter;
+        $prompt = 'Pouvez-vous générer un quiz pour la classe de 1ère année du lycée, matière : '. $subj->getTitle() .' chapitre :' . $chapter->getTitle().', et sous-chapitre :' .$subchapter->getTitle().' ?';
 
 
-        $apiKey = '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';
+        $apiKey = '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';
 
-   echo generateTextWithOpenAI($prompt, $apiKey);
+   
         $generatedText = $this->generateTextWithOpenAI($prompt, $apiKey);
-    }
+    
 
     return $this->render('subchapter/show.html.twig', [
         

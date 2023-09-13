@@ -1,12 +1,27 @@
 {% extends'baseFront.html.twig' %}
 {% block body %}
-   
-    <main id="main">
-        <h1>{{ subject.title }}</h1>
-        <ul>
+<br><br><br>
+<section id="services" class="section-bg">
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h3>Please Select Your Chapter</h3>
+                </header>
+
+                <div class="row row-eq-height justify-content-center">
             {% for chapter in chapters %}
-                <li><a href="{{ path('show_chapter', {'id':level.id,'subjectId':subject.id,'chapterId': chapter.id}) }}">{{ chapter.title }}</a></li>
-            {% endfor %}
-        </ul>
-    </main>
+                    <div class="col-lg-4 mb-4">
+                        <div class="card" data-aos="zoom-in" data-aos-delay="100">
+                            <i class="bi bi-calendar4-week"></i>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ chapter.title }}</h5>
+                                <p class="card-text">If you select this chapter, you will find the sub-chapters to have the quizz on.</p>
+                                <a href="{{ path('show_chapter', {'id':level.id,'subjectId':subject.id,'chapterId': chapter.id}) }}">Go to sub-chapters</a>
+                            </div>
+                        </div>
+                    </div>
+{% endfor %}
+                </div>
+            </div>
+        </section><!-- End Why Us Section -->
 {% endblock %}

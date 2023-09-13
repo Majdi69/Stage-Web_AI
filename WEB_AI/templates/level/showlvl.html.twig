@@ -1,11 +1,28 @@
 {% extends'baseFront.html.twig' %}
 {% block body %}
+<br><br><br>
+<section id="services" class="section-bg">
+            <div class="container" data-aos="fade-up">
 
-        <h1>{{ level.title }}</h1>
-        <ul>
-                {% for subject in subjects %}
-                        <li><a href="{{ path('show_subject', {'id':level.id,'subjectId': subject.id}) }}">{{ subject.title }}</a></li>
-                {% endfor %}
-        </ul>
+                <header class="section-header">
+                    <h3>Please Select Your Subject</h3>
+                </header>
+
+                <div class="row row-eq-height justify-content-center">
+{% for subject in subjects %}
+                    <div class="col-lg-4 mb-4">
+                        <div class="card" data-aos="zoom-in" data-aos-delay="100">
+                            <i class="bi bi-calendar4-week"></i>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ subject.title }}</h5>
+                                <p class="card-text">If you select this subject, you will find the chapters and sub-chapters to have the quizz on.</p>
+                                <a href="{{ path('show_subject', {'id':level.id,'subjectId': subject.id}) }}">Go to chapters</a>
+                            </div>
+                        </div>
+                    </div>
+{% endfor %}
+                </div>
+            </div>
+        </section><!-- End Why Us Section -->
 
 {% endblock %}
