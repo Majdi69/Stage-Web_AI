@@ -1,0 +1,19 @@
+{% extends'baseFront.html.twig' %}
+{% block body %}
+
+<main id="main">
+    <h1>{{ subchapter.title }}</h1>
+    <h1>Generate Quiz</h1>
+
+ <h1>Generated Quiz</h1>
+
+    {% if generatedText is not null %}
+        <h2>Generated Quiz Text:</h2>
+        <p>{{ generatedText }}</p>
+    {% else %}
+        <p>No quiz generated yet.</p>
+    {% endif %}
+{% endblock %}
+
+
+

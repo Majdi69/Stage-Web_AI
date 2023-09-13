@@ -1,0 +1,11 @@
+{% extends'baseFront.html.twig' %}
+{% block body %}
+    <main id="main">
+        <h1>{{ chapter.title }}</h1>
+        <ul>
+            {% for subchapter in subchapters %}
+                <li><a href="{{ path('show_subchapter', {'id':level.id,'subjectId':subject.id,'chapterId': chapter.id,'subchapterId': subchapter.id}) }}">{{ subchapter.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </main>
+{% endblock %}

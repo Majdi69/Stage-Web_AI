@@ -1,0 +1,37 @@
+{% extends 'baseRegister.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+    <div class="wrapper">
+        <div class="inner">
+            <img src="{{ asset('Reg/images/image-1.png') }}" alt="" class="image-1">
+
+                {{ form_errors(registrationForm) }}
+                {{ form_start(registrationForm) }}
+                <h3>New Account?</h3>
+                <div class="form-holder">
+                    {{ form_row(registrationForm.lastname) }}
+                </div>
+
+                <div class="form-holder">
+                    {{ form_row(registrationForm.email) }}
+                </div>
+                <div class="form-holder">
+                    {{ form_row(registrationForm.plainPassword, {
+                        label: 'Password'
+                    }) }}
+                </div>
+                <div class="form-holder">
+                    {{ form_row(registrationForm.agreeTerms) }}
+                </div>
+                <button type="submit" class="btn">Register</button>
+
+
+            {{ form_end(registrationForm) }}
+            <img src="{{ asset('Reg/images/image-2.png') }}" alt="" class="image-2">
+        </div>
+
+    </div>
+{% endblock %}

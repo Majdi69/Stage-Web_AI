@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<title>Subchapter index</title>
+
+{% block body %}
+    <h1>Subchapter index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for subchapter in subchapters %}
+            <tr>
+                <td>{{ subchapter.id }}</td>
+                <td>{{ subchapter.title }}</td>
+                <td>
+                    <a href="{{ path('app_subchapter_show', {'id': subchapter.id}) }}">show</a>
+                    <a href="{{ path('app_subchapter_edit', {'id': subchapter.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_subchapter_new') }}">Create new</a>
+{% endblock %}

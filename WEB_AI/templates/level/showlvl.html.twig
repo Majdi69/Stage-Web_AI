@@ -1,0 +1,11 @@
+{% extends'baseFront.html.twig' %}
+{% block body %}
+
+        <h1>{{ level.title }}</h1>
+        <ul>
+                {% for subject in subjects %}
+                        <li><a href="{{ path('show_subject', {'id':level.id,'subjectId': subject.id}) }}">{{ subject.title }}</a></li>
+                {% endfor %}
+        </ul>
+
+{% endblock %}
